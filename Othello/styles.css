@@ -1,0 +1,80 @@
+/* reset */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+}
+body{
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 0.4fr 3fr 0.2fr;
+    background-color: #FFF0DD;
+}
+header{
+    font-size: 3rem;
+    font-weight: 500;
+    background-color: #E2A16F;
+    color: #FFF0DD;
+}
+header, footer{
+    align-content: center;
+}
+h3{
+    font-size: 2rem;
+}
+.player-input, .board{
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: #D1D3D4;
+    color: #86B0BD;
+}
+.player-input{
+    border-radius: 0px 0px 6px 6px;
+}
+button{
+    color: #86B0BD;
+    padding: 2px 48px;
+}
+main{
+    justify-self: anchor-center;
+    width: 90%;
+}
+.player-input{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 50px;
+}
+.gameboard{
+    --tile-size: 50px;
+    --tile-count-x: 8;
+    margin-top: 50px;
+    width: calc(var(--tile-count-x) * var(--tile-size));
+    display: grid;
+    justify-self: center;
+    grid-template-columns: repeat(var(--tile-count-x), 1fr);
+    grid-template-rows: repeat(var(--tile-count-x), 1fr);
+}
+.board{
+    width: var(--tile-size);
+    height: var(--tile-size);
+    font-weight: 1000;
+    font-size: 2rem;
+    align-content: space-evenly;
+}
+.board:hover{
+    border: 2px solid grey;
+}
+.board:active{
+    border: 3px solid black;
+}
+.player1Tiles, .player2Tiles{
+    width: fit-content;
+}
+.scores{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
