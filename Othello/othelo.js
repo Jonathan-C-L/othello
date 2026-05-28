@@ -27,7 +27,6 @@ function ConnectToServer() {
     postData["state"]   = "check";
     postData["player1"] = $(".player1").val();
     postData["player2"] = $(".player2").val();
-    console.log(postData);
     CallAJAX('gameFlow.php', 'post', postData, 'json', VerifyNames, AjaxError);
 }
 
@@ -37,9 +36,8 @@ function ConnectToServer() {
  * Returns: nothing
  */
 function VerifyNames(returnedData, statusMessage, ajaxRequest) {
-    console.log(returnedData);
     if (returnedData.errors != "")
-        window.alert(returnedData.errors + " must input a name!");
+        $(".status-text").text(returnedData.errors + " must input a name!");
 
     if (returnedData.errors == "") {
         GenerateBoard(8, 8);
