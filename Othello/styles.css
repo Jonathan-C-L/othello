@@ -97,10 +97,6 @@ main {
     transition: border-color 0.2s;
 }
 
-/* .score-card:hover {
-    border-color: rgba(212,168,75,0.4);
-} */
-
 .score-disc {
     width: 24px;
     height: 24px;
