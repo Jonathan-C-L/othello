@@ -1,80 +1,373 @@
-/* reset */
-*{
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Lato:wght@300;400;700&display=swap');
+
+/* ── Reset ── */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    text-align: center;
 }
-body{
+
+/* ── Body ── */
+body {
     min-height: 100vh;
     display: grid;
-    grid-template-rows: 0.4fr 3fr 0.2fr;
-    background-color: #FFF0DD;
+    grid-template-rows: auto 1fr auto;
+    background:
+        radial-gradient(ellipse at 50% -10%, #2a5c38 0%, #0e2218 55%, #060f0a 100%);
+    font-family: 'Lato', sans-serif;
+    color: #f0e6d3;
 }
-header{
+
+/* ── Header ── */
+header {
+    text-align: center;
+    padding: 20px;
+    font-family: 'Cinzel', serif;
     font-size: 3rem;
-    font-weight: 500;
-    background-color: #E2A16F;
-    color: #FFF0DD;
+    font-weight: 900;
+    letter-spacing: 0.5em;
+    text-indent: 0.5em; /* compensate letter-spacing so it looks centered */
+    background: linear-gradient(135deg, #180b00 0%, #361800 45%, #180b00 100%);
+    color: #d4a84b;
+    text-shadow:
+        0 2px 8px rgba(0,0,0,0.9),
+        0 0 40px rgba(212,168,75,0.25);
+    border-bottom: 2px solid #7a5210;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.6);
 }
-header, footer{
-    align-content: center;
-}
-h3{
-    font-size: 2rem;
-}
-.player-input, .board{
-    border: 1px solid black;
-    border-collapse: collapse;
-    background-color: #D1D3D4;
-    color: #86B0BD;
-}
-.player-input{
-    border-radius: 0px 0px 6px 6px;
-}
-button{
-    color: #86B0BD;
-    padding: 2px 48px;
-}
-main{
-    justify-self: anchor-center;
-    width: 90%;
-}
-.player-input{
+
+/* ── Main ── */
+main {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 32px 20px 48px;
+}
+
+/* ── Control Panel ── */
+.player-input {
+    background: linear-gradient(160deg, #221106, #381a08);
+    border: 1px solid rgba(180,130,40,0.5);
+    border-radius: 14px;
+    padding: 24px 40px;
+    width: 100%;
+    max-width: 580px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(200,160,70,0.15),
+        inset 0 -1px 0 rgba(0,0,0,0.4);
+}
+
+/* ── Status Text ── */
+.status-text {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: #d4a84b;
+    text-align: center;
+    letter-spacing: 0.06em;
+    min-height: 1.5em;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+}
+
+/* ── Score Cards ── */
+.scores {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+}
+
+.score-card {
+    display: flex;
+    align-items: center;
     gap: 10px;
-    padding: 20px 50px;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(212,168,75,0.2);
+    border-radius: 9px;
+    padding: 10px 20px;
+    flex: 1;
+    max-width: 230px;
+    justify-content: center;
+    transition: border-color 0.2s;
 }
-.gameboard{
-    --tile-size: 50px;
-    --tile-count-x: 8;
-    margin-top: 50px;
-    width: calc(var(--tile-count-x) * var(--tile-size));
+
+/* .score-card:hover {
+    border-color: rgba(212,168,75,0.4);
+} */
+
+.score-disc {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.score-disc.black-disc {
+    background: radial-gradient(circle at 33% 28%, #646464, #161616 52%, #020202);
+    box-shadow:
+        1px 2px 5px rgba(0,0,0,0.85),
+        inset 1px 1px 5px rgba(255,255,255,0.13),
+        inset -1px -1px 3px rgba(0,0,0,0.6);
+}
+
+.score-disc.white-disc {
+    background: radial-gradient(circle at 33% 28%, #ffffff, #e6e6e6 52%, #bebebe);
+    box-shadow:
+        1px 2px 5px rgba(0,0,0,0.5),
+        inset 1px 1px 5px rgba(255,255,255,0.9),
+        inset -1px -1px 3px rgba(0,0,0,0.12);
+}
+
+.player1Tiles,
+.player2Tiles {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #f0e6d3;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+}
+
+/* ── Inputs ── */
+.input-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+input[type="text"] {
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(160,110,25,0.6);
+    border-radius: 7px;
+    padding: 9px 14px;
+    color: #f0e6d3;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    text-align: center;
+    width: 210px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus {
+    border-color: #d4a84b;
+    box-shadow: 0 0 0 3px rgba(212,168,75,0.18);
+}
+
+input[type="text"][readonly] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+input::placeholder {
+    color: rgba(240,230,211,0.3);
+    font-size: 0.82rem;
+}
+
+/* ── Buttons ── */
+.button-row {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+button {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    padding: 10px 28px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.start {
+    background: linear-gradient(145deg, #d4a84b, #a87828);
+    color: #1a0900;
+    font-weight: 700;
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.28),
+        inset 0 -1px 0 rgba(0,0,0,0.3);
+}
+
+.start:hover {
+    background: linear-gradient(145deg, #e0bc60, #bc9038);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(0,0,0,0.5);
+}
+
+.start:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+#id {
+    background: rgba(70,18,18,0.75);
+    color: #f0a0a0;
+    border: 1px solid rgba(180,55,55,0.4);
+    font-size: 0.72rem;
+}
+
+#id:hover {
+    background: rgba(100,25,25,0.9);
+    transform: translateY(-1px);
+}
+
+/* ── Wooden Board Frame ── */
+.board-frame {
+    background:
+        repeating-linear-gradient(
+            94deg,
+            transparent 0px, transparent 22px,
+            rgba(0,0,0,0.045) 22px, rgba(0,0,0,0.045) 24px
+        ),
+        linear-gradient(168deg, #4e2608 0%, #6e3a10 28%, #4a2206 55%, #6e3a10 80%, #4a2206 100%);
+    border-radius: 10px;
+    padding: 20px;
+    border: 3px solid #9a6818;
+    box-shadow:
+        0 16px 56px rgba(0,0,0,0.75),
+        inset 0 2px 6px rgba(190,140,60,0.28),
+        inset 0 -2px 6px rgba(0,0,0,0.45),
+        inset 2px 0 4px rgba(190,140,60,0.12),
+        inset -2px 0 4px rgba(0,0,0,0.3);
+}
+
+/* ── Gameboard ── */
+.gameboard {
+    --tile-size: 62px;
+    --tile-count: 8;
+    width: calc(var(--tile-count) * var(--tile-size));
+    height: calc(var(--tile-count) * var(--tile-size));
     display: grid;
-    justify-self: center;
-    grid-template-columns: repeat(var(--tile-count-x), 1fr);
-    grid-template-rows: repeat(var(--tile-count-x), 1fr);
+    grid-template-columns: repeat(var(--tile-count), var(--tile-size));
+    grid-template-rows: repeat(var(--tile-count), var(--tile-size));
+    background: #1c6b34;
+    border: 3px solid #0c3e1c;
+    box-shadow:
+        inset 0 0 50px rgba(0,0,0,0.22),
+        inset 0 0 10px rgba(0,0,0,0.15),
+        0 0 0 1px #0c3e1c;
 }
-.board{
+
+/* ── Cells ── */
+.board {
     width: var(--tile-size);
     height: var(--tile-size);
-    font-weight: 1000;
-    font-size: 2rem;
-    align-content: space-evenly;
-}
-.board:hover{
-    border: 2px solid grey;
-}
-.board:active{
-    border: 3px solid black;
-}
-.player1Tiles, .player2Tiles{
-    width: fit-content;
-}
-.scores{
-    width: 100%;
+    background: #1c6b34;
+    border: 1px solid #145226;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 25px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.1s;
+}
+
+.board:hover {
+    background-color: #226838;
+}
+
+.board:active {
+    background-color: #165a2c;
+}
+
+/* ── Pieces ── */
+.piece {
+    width: 84%;
+    height: 84%;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.piece.black {
+    background: radial-gradient(circle at 34% 28%, #5c5c5c, #181818 50%, #020202 100%);
+    box-shadow:
+        2px 4px 8px rgba(0,0,0,0.8),
+        inset 2px 2px 7px rgba(255,255,255,0.12),
+        inset -1px -1px 3px rgba(0,0,0,0.6);
+}
+
+.piece.white {
+    background: radial-gradient(circle at 34% 28%, #ffffff, #ebebeb 50%, #c4c4c4 100%);
+    box-shadow:
+        2px 4px 8px rgba(0,0,0,0.65),
+        inset 2px 2px 8px rgba(255,255,255,0.9),
+        inset -1px -1px 3px rgba(0,0,0,0.12);
+}
+
+/* ── Playable Dot ── */
+.playable-dot {
+    width: 27%;
+    height: 27%;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.32);
+    pointer-events: none;
+}
+
+/* ── Piece Animations ── */
+@keyframes place-piece {
+    0%   { transform: scale(0) translateY(-16px); opacity: 0; }
+    60%  { transform: scale(1.1) translateY(0);   opacity: 1; }
+    80%  { transform: scale(0.95) translateY(0); }
+    100% { transform: scale(1) translateY(0); }
+}
+
+/* scaleX collapses piece to invisible at midpoint;
+   since the new color class is already on the element,
+   it re-expands showing the new color — simulating a flip */
+@keyframes flip-piece {
+    0%   { transform: scaleX(1);    filter: brightness(1); }
+    38%  { transform: scaleX(0.04); filter: brightness(2); }
+    62%  { transform: scaleX(0.04); filter: brightness(2); }
+    100% { transform: scaleX(1);    filter: brightness(1); }
+}
+
+.piece.place-in {
+    animation: place-piece 0.3s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+.piece.flip-in {
+    animation: flip-piece 0.38s ease-in-out forwards;
+}
+
+/* ── Footer ── */
+footer {
+    text-align: center;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #180b00, #281200);
+    color: rgba(212,168,75,0.5);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    border-top: 1px solid rgba(212,168,75,0.15);
+}
+
+/* ── Responsive ── */
+@media (max-width: 560px) {
+    .gameboard {
+        --tile-size: 42px;
+    }
+    header {
+        font-size: 2rem;
+        letter-spacing: 0.3em;
+    }
+    .player-input {
+        padding: 18px 18px;
+    }
+    input[type="text"] {
+        width: 140px;
+    }
+    .board-frame {
+        padding: 12px;
+    }
 }
