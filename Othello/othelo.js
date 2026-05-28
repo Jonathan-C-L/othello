@@ -111,6 +111,7 @@ function StartGame(gameData, statusMessage, ajaxRequest) {
         console.log("board click: " + $(this).attr("id"));
         CallAJAX(
             'gameFlow.php', 'post',
+            // Skips if beyond bounds of board (i.e. 9, 9) used for skip turn action
             SendPlayData($(this).attr("id"), gameData["playerTurn"], gameData["state"]),
             'json', UpdateGame, AjaxError
         );
