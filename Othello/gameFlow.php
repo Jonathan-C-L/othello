@@ -16,12 +16,8 @@ $yChecks = array(0, 0, 1, -1, 1, -1, 1, -1);
 
 session_start(); // start session, or connect to session if already started 
 
-error_log(json_encode($_POST), destination: "./");                   
-
 $clean = CleanData(); // clean all input data
 $output = array();  // create an array to be used to hold all data to be returned to the client.
-
-error_log(json_encode($clean), destination: "./");  // Make sure the data is still as we expect
 
 if(isset($clean["state"])){
     if ($clean["state"] == "check"){
@@ -40,7 +36,6 @@ if(isset($clean["quit"]) && $clean["quit"] == "quit"){
     session_destroy(); // completely eliminates all data related to the session, including variables
 }
 
-error_log(json_encode($output), destination: "./");  
 echo json_encode($output);  // Package and send data to the client. Only do this a single time per AJAX request.
 die();  // Stop execution of the PHP page here.  
         
@@ -216,9 +211,9 @@ function FlipTiles($x, $y){
 function Flippable($x, $y, $dirX, $dirY, $ownTile, $otherTile){
     $gameGrid = $_SESSION["gameGrid"];
 
-    if($gameGrid[$x][$y] == "")
+    if($x < 0 || $x >= count($gameGrid) || $y < 0 || $y >= count($gameGrid[$x]))
         return false;
-    if($x < 0 || $x > count($gameGrid) || $y < 0 || $y > count($gameGrid[$x]))
+    if($gameGrid[$x][$y] == "")
         return false;
     if($gameGrid[$x][$y] == $ownTile)
         return true;
@@ -239,15 +234,24 @@ function AvailablePlays($currentTile){
 
     $emptyX = array();
     $emptyY = array();
+
     // find emtpy areas of the opposite color and store the positions
-    for($x = 1; $x < count($gameGrid) - 1; $x++){
-        for($y = 1; $y < count($gameGrid[$x]) - 1; $y++){
-            if( $gameGrid[$x][$y] == $oppositeTile && ($gameGrid[$x + 1][$y] == "" || $gameGrid[$x - 1][$y] == "" || $gameGrid[$x][$y + 1] == "" || $gameGrid[$x][$y - 1] == "" || 
-                $gameGrid[$x + 1][$y + 1] == "" || $gameGrid[$x + 1][$y - 1] == "" || $gameGrid[$x - 1][$y + 1] == "" || $gameGrid[$x - 1][$y - 1] == "")){
-                $emptyX[] = $x; // add x position
-                $emptyY[] = $y; // add y position
+    for($x = 0; $x < count($gameGrid); $x++){
+        for($y = 0; $y < count($gameGrid[$x]); $y++){
+            if($gameGrid[$x][$y] == $oppositeTile && (
+                // ?? "x" allows safe check against ""
+                ($gameGrid[$x + 1][$y]     ?? "x") == "" ||
+                ($gameGrid[$x - 1][$y]     ?? "x") == "" ||
+                ($gameGrid[$x][$y + 1]     ?? "x") == "" ||
+                ($gameGrid[$x][$y - 1]     ?? "x") == "" ||
+                ($gameGrid[$x + 1][$y + 1] ?? "x") == "" ||
+                ($gameGrid[$x + 1][$y - 1] ?? "x") == "" ||
+                ($gameGrid[$x - 1][$y + 1] ?? "x") == "" ||
+                ($gameGrid[$x - 1][$y - 1] ?? "x") == "")){
+                $emptyX[] = $x;
+                $emptyY[] = $y;
             }
-        }   
+        }
     }
 
     $possiblePlays = 0; // keeps track of the num of playable spots
@@ -292,9 +296,9 @@ function RecursiveFill($x, $y, $dirX, $dirY, $ownTile, $otherTile){
     $gameGrid = $_SESSION["gameGrid"];
 
     // exit conditions
-    if($gameGrid[$x][$y] == "")
+    if($x < 0 || $x >= count($gameGrid) || $y < 0 || $y >= count($gameGrid[$x]))
         return false;
-    if($x < 0 || $x > count($_SESSION["gameGrid"]) || $y < 0 || $y > count($_SESSION["gameGrid"][$x]))
+    if($gameGrid[$x][$y] == "")
         return false;
     if($gameGrid[$x][$y] == $ownTile){
         return true;
@@ -372,6 +376,7 @@ function CheckResults(){
 function SendGameData(){
     global $clean, $black, $white;
 
+    // x =9 and y = 9 is the signal for a skip turn, so ignore the play validation and just check results and move to next turn
     if($clean["x"] != 9 && $clean["y"] != 9){
         CheckValidPlay(); // check if the player placement is valid
     }
