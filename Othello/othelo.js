@@ -4,7 +4,6 @@ Date: Sept. 18, 2025
 Author: Jonathan Le
 Purpose: Javascript for DOM manipulations of Othello. Logic handled in gameFlow.php.
 */
-console.log("js has successfully connected!");
 
 // Tracks the previous board state so RenderBoard can detect
 // newly placed vs flipped pieces and apply the right animation.
@@ -90,9 +89,6 @@ function GenerateBoard(width, height) {
  * Returns: nothing
  */
 function StartGame(gameData, statusMessage, ajaxRequest) {
-    console.log("StartGame()");
-    console.log(gameData);
-
     RenderBoard(gameData.gameGrid, gameData.playable);
     $(".status-text").text(`${gameData["player1"]} starts as Black!`);
 
@@ -122,9 +118,6 @@ function StartGame(gameData, statusMessage, ajaxRequest) {
  * Returns: nothing
  */
 function UpdateGame(gameData, statusMessage, ajaxRequest) {
-    console.log("UpdateGame()");
-    console.log(gameData);
-
     // Determine colour labels for current and opposing player
     let color    = (gameData.playerTurn == gameData.first) ? "Black" : "White";
     let oppColor = (color === "Black") ? "White" : "Black";
